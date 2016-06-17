@@ -57,13 +57,13 @@ response = invokeEcho(str)
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from invokeEcho(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from invokeEcho(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 responseObject = json.loads(response.text)
 print("responseObject==> " + repr(responseObject))
 message = responseObject.get('message')
 print("message==> " + message)
-if str != message:
+if str == message:
     print("Ok. Response from invokeEcho() contains expected message: " + message)
 else:
     throwUp("Error: response message from invokeEcho() does not match request message. str: " + str + " message: " + message)
@@ -78,7 +78,7 @@ response = listNamespaces()
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from listNamespaces(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from listNamespaces(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 namespaceList = json.loads(response.text)
 if NAMESPACE in namespaceList:
@@ -96,7 +96,7 @@ response = createAction('hello.js', ACTION_NAME)
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from createAction(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from createAction(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 # For grins, look at the name in the response object.
 responseObject = json.loads(response.text)
@@ -118,7 +118,7 @@ response = listActions()
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from listActions(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from listActions(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 actionList = json.loads(response.text)
 print("actionList==> " + repr(actionList))
@@ -144,7 +144,7 @@ response = invokeAction(ACTION_NAME)
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from invokeAction(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from invokeAction(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 responseObject = json.loads(response.text)
 print("responseObject==> " + repr(responseObject))
@@ -165,7 +165,7 @@ deleteAction(ACTION_NAME)
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from invokeAction(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from invokeAction(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 responseObject = json.loads(response.text)
 print("responseObject==> " + repr(responseObject))
@@ -186,7 +186,7 @@ response = listActions()
 
 # Verbose response checking
 if 200 != response.status_code:
-    throwUp("Error: did not receive 200 status code from listActions(). rc=" + response.status_code)
+    throwUp("Error: did not receive 200 status code from listActions(). rc=" + repr(response.status_code))
 print("response.text==> " + response.text)
 actionList = json.loads(response.text)
 print("actionList==> " + repr(actionList))
@@ -195,7 +195,7 @@ for actionObject in actionList:
         name = actionObject.get('name')
         if ACTION_NAME == name:
             throwUp("Error: Response from listActions() contains action which was supposed to be deleted.  ACTION_NAME: " + ACTION_NAME)
-print("Ok. Deleted action name was correctly not found in list from listActions().")
+print("Ok. Deleted action name was removed from list.")
 
 # Pause
 time.sleep(SLEEP_TIME_SECS)
